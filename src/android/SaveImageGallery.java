@@ -182,6 +182,8 @@ public class SaveImageGallery extends CordovaPlugin {
                     folder.mkdirs();
                 }
 
+            } else if (deviceVersion.equals("11")) {
+                folder = cordova.getActivity().getExternalFilesDir(null);
             } else {
                 folder = Environment.getExternalStorageDirectory();
             }
