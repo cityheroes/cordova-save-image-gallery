@@ -1,6 +1,6 @@
 {
   "name": "cordova-save-image-gallery",
-  "version": "0.0.26",
+  "version": "0.0.27",
   "description": "Cordova plugin to save base64 data as a png/jpg image into the device and applying compression if needed",
   "license": "MIT",
   "scripts": {
@@ -8,19 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/agomezmoron/cordova-save-image-gallery.git"
+    "url": "git+https://github.com/cityheroes/cordova-save-image-gallery.git"
   },
   "bugs": {
-    "url": "https://github.com/agomezmoron/cordova-save-image-gallery/issues"
+    "url": "https://github.com/cityheroes/cordova-save-image-gallery/issues"
   },
-  "engines": [
-    {
-      "cordova": ">=3.0.0"
-    },
-    {
-      "node": ">=0.12"
-    }
-  ],
+  "engines": {
+    "cordova": ">=3.0.0",
+    "node": ">=0.12"
+  },
   "cordova": {
     "id": "cordova-save-image-gallery",
     "platforms": [
@@ -41,33 +37,6 @@
     "cordova-ios",
     "cordova-android",
     "cordova-wp8"
-  ],
-  "author": {
-    "name": "Alejandro Gomez",
-    "email": "agommor@gmail.com",
-    "url": "http://github.com/agomezmoron"
-  },
-  "contributors": [
-    {
-      "name": "Ignacio Gonzalez",
-      "email": "natete981@gmail.com",
-      "url": "http://github.com/agomezmoron"
-    },
-    {
-      "name": "StefanoMagrassi",
-      "email": "stefano.magrassi@gmail.com",
-      "url": "http://thinkwritedone.com"
-    },
-    {
-      "name": "Simba Zhang",
-      "email": "solderzzc@gmail.com",
-      "url": "http://www.tiegushi.com"
-    },
-    {
-      "name": "Bastian Meier",
-      "email": "post@bastianmeier.de",
-      "url": "http://github.com/bastian-meie"
-    }
   ],
   "devDependencies": {
     "eslint": "1.10.3",

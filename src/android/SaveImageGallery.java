@@ -54,22 +54,27 @@ public class SaveImageGallery extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
 
-        if(action.equals(REMOVE_IMAGE_ACTION)) {
+        if (action.equals(REMOVE_IMAGE_ACTION)) {
             this.removeImage(args, callbackContext);
-        }
-        else {
-            this._args = args;
-            this._callback = callbackContext;
-
-            if (PermissionHelper.hasPermission(this, WRITE_EXTERNAL_STORAGE)) {
-                Log.d("SaveImageGallery", "Permissions already granted, or Android version is lower than 6");
-                saveBase64Image(this._args, this._callback);
-            } else {
-                Log.d("SaveImageGallery", "Requesting permissions for WRITE_EXTERNAL_STORAGE");
-                PermissionHelper.requestPermission(this, WRITE_PERM_REQUEST_CODE, WRITE_EXTERNAL_STORAGE);
-            } 
+            return true;
         }
 
+        this._args = args;
+        this._callback = callbackContext;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            Log.d("SaveImageGallery", "Permissions not required");
+            saveBase64Image(this._args, this._callback);
+            return true;
+        }
+
+        if (PermissionHelper.hasPermission(this, WRITE_EXTERNAL_STORAGE)) {
+            Log.d("SaveImageGallery", "Permissions already granted, or Android version is lower than 6");
+            saveBase64Image(this._args, this._callback);
+        } else {
+            Log.d("SaveImageGallery", "Requesting permissions for WRITE_EXTERNAL_STORAGE");
+            PermissionHelper.requestPermission(this, WRITE_PERM_REQUEST_CODE, WRITE_EXTERNAL_STORAGE);
+        }
         return true;
     }
 
@@ -107,7 +112,7 @@ public class SaveImageGallery extends CordovaPlugin {
         String format = args.optString(3);
         int quality = args.optInt(4);
 
-        List<String> allowedFormats = Arrays.asList(new String[] { JPG_FORMAT, PNG_FORMAT });
+        List<String> allowedFormats = Arrays.asList(new String[]{JPG_FORMAT, PNG_FORMAT});
 
         // isEmpty() requires API level 9
         if (base64.equals(EMPTY_STR)) {
@@ -238,20 +243,20 @@ public class SaveImageGallery extends CordovaPlugin {
     /**
      * Callback from PermissionHelper.requestPermission method
      */
-	public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults) throws JSONException {
-		for (int r : grantResults) {
-			if (r == PackageManager.PERMISSION_DENIED) {
-				Log.d("SaveImageGallery", "Permission not granted by the user");
-				_callback.error("Permissions denied");
-				return;
-			}
-		}
-		
-		switch (requestCode) {
-		case WRITE_PERM_REQUEST_CODE:
-			Log.d("SaveImageGallery", "User granted the permission for WRITE_EXTERNAL_STORAGE");
-            saveBase64Image(this._args, this._callback);
-			break;
-		}
-	}
+    public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults) throws JSONException {
+        for (int r : grantResults) {
+            if (r == PackageManager.PERMISSION_DENIED) {
+                Log.d("SaveImageGallery", "Permission not granted by the user");
+                _callback.error("Permissions denied");
+                return;
+            }
+        }
+
+        switch (requestCode) {
+            case WRITE_PERM_REQUEST_CODE:
+                Log.d("SaveImageGallery", "User granted the permission for WRITE_EXTERNAL_STORAGE");
+                saveBase64Image(this._args, this._callback);
+                break;
+        }
+    }
 }
